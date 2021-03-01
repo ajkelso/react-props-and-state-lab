@@ -1,25 +1,42 @@
 import React from 'react'
 
 class Pet extends React.Component {
+  
+  renderGender = (gender) => {
+    return gender === 'male' ? '♂' : '♀'
+  }
+
+  handleClick = () => {
+    this.props.onAdoptPet(this.props.pet.id)
+  }
+  
+  adoptButton = (isAdopted, id) => {
+    if(isAdopted){
+      return  <button className="ui disabled button">Already adopted</button>
+    } else {
+      return  <button onClick={this.handleClick} className="ui primary button">Adopt pet</button>
+    }
+  }
+
   render() {
+    const {name, gender, type, age, weight, isAdopted, id} = this.props.pet
     return (
       <div className="card">
         <div className="content">
           <a className="header">
-            {/*'♀' OR '♂' */}
-            PET NAME
+            {this.renderGender(gender)}
+            {name}
           </a>
           <div className="meta">
-            <span className="date">PET TYPE</span>
+            <span className="date">{type}</span>
           </div>
           <div className="description">
-            <p>Age: PET AGE</p>
-            <p>Weight: PET WEIGHT</p>
+            <p>Age: {age}</p>
+            <p>Weight: {weight}</p>
           </div>
         </div>
         <div className="extra content">
-          <button className="ui disabled button">Already adopted</button>
-          <button className="ui primary button">Adopt pet</button>
+          {this.adoptButton(isAdopted, id)}
         </div>
       </div>
     )
